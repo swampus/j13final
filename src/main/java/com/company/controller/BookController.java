@@ -3,10 +3,7 @@ package com.company.controller;
 import com.company.model.Book;
 import com.company.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,5 +33,15 @@ public class BookController {
     public List<Book> findAllBooksByInAnnotation(@PathVariable("keyword")
                                            String keyword) {
         return bookService.getAllBooksByInAnnotation(keyword);
+    }
+
+    @PostMapping("/Book")
+    public Book createBook(@RequestBody Book book){
+        return bookService.saveBook(book);
+    }
+
+    @PutMapping("/Book")
+    public Book updateBook(@RequestBody Book book){
+        return bookService.updateBook(book);
     }
 }

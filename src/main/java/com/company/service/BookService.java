@@ -29,4 +29,18 @@ public class BookService {
         return bookRepository.findByAnnotationLike("%" + keyword + "%");
     }
 
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
+
+    public Book updateBook(Book book) {
+        Book bookFromDb = bookRepository.getOne(book.getId());
+        if(bookFromDb != null){
+            return bookRepository.save(bookFromDb);
+        }else {
+            throw new RuntimeException("Book with id: " + book.getId()
+                    + "does not exists!");
+        }
+    }
+
 }
