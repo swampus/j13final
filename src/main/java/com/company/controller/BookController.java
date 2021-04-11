@@ -57,8 +57,7 @@ public class BookController {
     }
 
     @PutMapping("/Book")
-    public BookDTO updateBook(@RequestBody BookDTO book) {
-        return bookMapper.toDTO(
-                bookService.updateBook(bookMapper.fromDTO(book)));
+    public void updateBook(@RequestBody BookDTO book) {
+        bookService.updateBook(bookMapper.fromDTO(book));
     }
 }
