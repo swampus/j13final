@@ -17,8 +17,16 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> getAllBooks(){
+    public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    public List<Book> getAllBooksByYear(String year) {
+        return bookRepository.findByYear(year);
+    }
+
+    public List<Book> getAllBooksByInAnnotation(String keyword) {
+        return bookRepository.findByAnnotationLike("%" + keyword + "%");
     }
 
 }
