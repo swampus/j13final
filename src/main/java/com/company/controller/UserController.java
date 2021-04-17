@@ -7,9 +7,11 @@ import com.company.mapper.UserMapper;
 import com.company.model.Book;
 import com.company.model.User;
 import com.company.service.UserService;
+import com.company.service.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,16 +23,21 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final BookMapper bookMapper;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper, BookMapper bookMapper) {
+    public UserController(UserService userService, UserMapper userMapper, BookMapper bookMapper,
+                          UserValidator userValidator) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.bookMapper = bookMapper;
+        this.userValidator = userValidator;
     }
 
     @PostMapping("/user")
-    public UserDTO saveUser(@RequestBody UserDTO userDTO) {
+    //do validation @Valid
+    public UserDTO saveUser(@Valid @RequestBody UserDTO userDTO) {
+        userValidator.checkUserEmailDoesNotExists(userDTO.getEmail());
         return userMapper.toDTO(userService
                 .saveUser(userMapper.fromDTO(userDTO)));
     }
@@ -40,7 +47,7 @@ public class UserController {
         List<User> users = userService.findAllUsers();
         //EXAMPLE add referenced ENTITY
         return users.stream()
-                .map(user-> {
+                .map(user -> {
                     Set<Book> userBooks = user.getBooks();
                     UserDTO userDTO = userMapper.toDTO(user);
                     Set<BookDTO> bookDTOS = userBooks.stream()
@@ -54,7 +61,7 @@ public class UserController {
 
     @GetMapping("/user/favorite_book({favoriteBook})")
     public List<UserDTO> getByFavoriteBook(@PathVariable("favoriteBook")
-                                                       String favoriteBook) {
+                                                   String favoriteBook) {
         List<User> users = userService.getByFavoriteBook(favoriteBook);
         return users.stream()
                 .map(userMapper::toDTO)
@@ -63,7 +70,7 @@ public class UserController {
 
     @GetMapping("/user/book({bookName})")
     public List<UserDTO> getByBookName(@PathVariable("bookName")
-                                                   String bookName) {
+                                               String bookName) {
         List<User> users = userService.getUsersByBookName(bookName);
         return users.stream()
                 .map(userMapper::toDTO)

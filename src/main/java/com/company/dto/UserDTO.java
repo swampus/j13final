@@ -1,13 +1,21 @@
 package com.company.dto;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserDTO {
 
     private Long id;
+    @Length(min = 4, max = 10)
     private String username;
+    @Email(message = "Email should be valid")
     private String email;
+    @NotBlank(message = "personal code can not be null")
     private String personalCode;
+    @NotBlank(message = "address can not be null")
     private String address;
     private String favoriteBook;
     private Set<BookDTO> bookDTOSet;
