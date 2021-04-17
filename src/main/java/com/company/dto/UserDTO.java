@@ -1,5 +1,7 @@
 package com.company.dto;
 
+import java.util.Set;
+
 public class UserDTO {
 
     private Long id;
@@ -8,6 +10,7 @@ public class UserDTO {
     private String personalCode;
     private String address;
     private String favoriteBook;
+    private Set<BookDTO> bookDTOSet;
 
     public Long getId() {
         return id;
@@ -55,5 +58,13 @@ public class UserDTO {
 
     public void setFavoriteBook(String favoriteBook) {
         this.favoriteBook = favoriteBook;
+    }
+
+    public Set<BookDTO> getBookDTOSet() {
+        return bookDTOSet;
+    }
+
+    public void setBookDTOSet(Set<BookDTO> bookDTOSet) {
+        this.bookDTOSet = bookDTOSet;
     }
 }

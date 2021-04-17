@@ -1,10 +1,13 @@
 package com.company.service;
 
+import com.company.dto.BookDTO;
 import com.company.model.Book;
 import com.company.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -43,4 +46,8 @@ public class BookService {
         }
     }
 
+    public List<Book> filterBook(Book book) {
+        Example<Book> bookExample = Example.of(book);
+        return bookRepository.findAll(bookExample);
+    }
 }

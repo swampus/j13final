@@ -1,6 +1,7 @@
 package com.company.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -19,6 +20,8 @@ public class User {
     private String address;
     @Column(name = "favorite_book")
     private String favoriteBook;
+    @OneToMany(mappedBy = "user")
+    private Set<Book> books;
 
     public Long getId() {
         return id;
@@ -66,5 +69,13 @@ public class User {
 
     public void setFavoriteBook(String favoriteBook) {
         this.favoriteBook = favoriteBook;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

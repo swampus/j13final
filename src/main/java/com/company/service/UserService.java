@@ -33,5 +33,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<User> getUsersByBookName(String bookName) {
+        return userRepository.findDistinctByBooksNameLike("%" + bookName + "%");
+    }
 
 }
