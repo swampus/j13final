@@ -1,10 +1,13 @@
 package com.company.handler;
 
+import com.company.controller.UserController;
 import com.company.dto.ErrorDTO;
 import com.company.exception.EmailAlreadyExistsException;
 import com.company.exception.EntityDoesNotExistsException;
 import com.company.exception.UserDoesNotHaveThatBookException;
 import com.company.exception.UserHaveToManyBooksException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,6 +23,8 @@ import java.util.Date;
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = {EmailAlreadyExistsException.class})
     public ResponseEntity<ErrorDTO> handleEmailAlreadyExistsException(
@@ -37,8 +42,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {EntityDoesNotExistsException.class})
-    public ResponseEntity<ErrorDTO> handleUserHaveToManyBooksException(
+    public ResponseEntity<ErrorDTO> handleEntityDoesNotExistsException(
             EntityDoesNotExistsException ex, WebRequest request) {
+
+        /** LOGGER printStrackTrace Example **/
+        LOGGER.info(ex.getMessage(), ex);
         ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
         return ResponseEntity.ok(errorDTO);
     }

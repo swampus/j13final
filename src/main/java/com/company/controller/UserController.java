@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +22,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/rest/User.svc")
 public class UserController {
-    /** LOGGER EXAMPLE **/
+    /**
+     * LOGGER EXAMPLE
+     **/
     private static final Logger LOGGER
             = LoggerFactory.getLogger(UserController.class);
 
@@ -37,6 +40,12 @@ public class UserController {
         this.userMapper = userMapper;
         this.bookMapper = bookMapper;
         this.userValidator = userValidator;
+    }
+
+    @GetMapping("/user({userId})")
+    //do validation @Valid
+    public UserDTO getUserById(@PathVariable("userId") Long userId) {
+        return userMapper.toDTO(userService.getUserById(userId));
     }
 
     @PostMapping("/user")

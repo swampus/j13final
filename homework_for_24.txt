@@ -1,0 +1,18 @@
+A) Organisation.
+  -> Intellij IDEA Ultimate (ask for key or trial 30 days, without ultimate React/Angular will be hard)
+  -> Define the topic(Theme) of final project and group (1-4 people) make approx plan what should be done
+  -> (optional) Register Facebook developer console or Google Console (OAuth),
+      create test GMAIL (not connected with you acc)
+
+B) Bussines request:
+User should have LoyalityCard
+* Loyality card could be one of 4 types: Bronze, Silver, Gold, Platinum
+* Loyality card contains number, and information about user. User can have only one loyality card
+
+- if user have loyality card he can take more books
+Bronze: 7
+Silver: 10
+Gold: 15
+Platinum: 20
+
+Should be methods, to assign loyality card to user, remove loyality card from user, change loyality card type.

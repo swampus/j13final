@@ -34,6 +34,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.getOne(id);
+    }
+
     public List<User> getUsersByBookName(String bookName) {
         return userRepository.findDistinctByBooksNameLike("%" + bookName + "%");
     }
