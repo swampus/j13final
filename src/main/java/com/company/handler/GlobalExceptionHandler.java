@@ -24,7 +24,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {EmailAlreadyExistsException.class})
     public ResponseEntity<ErrorDTO> handleEmailAlreadyExistsException(
             EmailAlreadyExistsException ex, WebRequest request) {
-        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request,
+                ex.getMessage());
         return ResponseEntity.ok(errorDTO);
     }
 
