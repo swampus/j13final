@@ -2,7 +2,6 @@ package com.company.controller;
 
 import com.company.dto.BookDTO;
 import com.company.mapper.BookMapper;
-import com.company.model.Book;
 import com.company.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,11 +62,24 @@ public class BookController {
     }
 
     @PostMapping("/book/filter")
-    public List<BookDTO> filterBooks(@RequestBody BookDTO bookDTO){
+    public List<BookDTO> filterBooks(@RequestBody BookDTO bookDTO) {
         return bookService.filterBook(bookMapper.fromDTO(bookDTO))
                 .stream()
                 .map(bookMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
+    @PutMapping("/user/add")
+    public void addBookToUser(@RequestParam Long userId,
+                              @RequestParam Long bookId) {
+        bookService.addBookToUser(userId, bookId);
+    }
+
+    @PutMapping("/user/remove")
+    public void removeBookFromUser(@RequestParam Long userId,
+                                   @RequestParam Long bookId) {
+        bookService.removeBookFromUser(userId, bookId);
+    }
+
 
 }

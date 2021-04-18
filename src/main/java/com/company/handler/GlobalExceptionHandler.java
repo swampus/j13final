@@ -2,6 +2,9 @@ package com.company.handler;
 
 import com.company.dto.ErrorDTO;
 import com.company.exception.EmailAlreadyExistsException;
+import com.company.exception.EntityDoesNotExistsException;
+import com.company.exception.UserDoesNotHaveThatBookException;
+import com.company.exception.UserHaveToManyBooksException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,12 +21,31 @@ import java.util.Date;
 @RestController
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value
-            = {EmailAlreadyExistsException.class})
+    @ExceptionHandler(value = {EmailAlreadyExistsException.class})
     public ResponseEntity<ErrorDTO> handleEmailAlreadyExistsException(
             EmailAlreadyExistsException ex, WebRequest request) {
-        ErrorDTO errorDTO = new ErrorDTO(ex.getMessage(), ((ServletWebRequest) request).getRequest().getRequestURI()
-                , new Date());
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
+        return ResponseEntity.ok(errorDTO);
+    }
+
+    @ExceptionHandler(value = {UserHaveToManyBooksException.class})
+    public ResponseEntity<ErrorDTO> handleUserHaveToManyBooksExceptionException(
+            UserHaveToManyBooksException ex, WebRequest request) {
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
+        return ResponseEntity.ok(errorDTO);
+    }
+
+    @ExceptionHandler(value = {EntityDoesNotExistsException.class})
+    public ResponseEntity<ErrorDTO> handleUserHaveToManyBooksException(
+            EntityDoesNotExistsException ex, WebRequest request) {
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
+        return ResponseEntity.ok(errorDTO);
+    }
+
+    @ExceptionHandler(value = {UserDoesNotHaveThatBookException.class})
+    public ResponseEntity<ErrorDTO> handleUserDoesNotHaveThatBookException(
+            UserDoesNotHaveThatBookException ex, WebRequest request) {
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
         return ResponseEntity.ok(errorDTO);
     }
 
@@ -31,8 +53,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value
             = {Exception.class})
     public ResponseEntity<ErrorDTO> handleValidationException(Exception ex, WebRequest request) {
-        ErrorDTO errorDTO = new ErrorDTO(ex.getMessage(),
-                ((ServletWebRequest) request).getRequest().getRequestURI(), new Date());
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, ex.getMessage());
         return ResponseEntity.ok(errorDTO);
     }
 
@@ -45,9 +66,14 @@ public class GlobalExceptionHandler {
             stringBuilder.append(ob.getObjectName()).append(" ").append(ob.getDefaultMessage()).append(" ");
         }
 
-        ErrorDTO errorDTO = new ErrorDTO(stringBuilder.toString(),
-                ((ServletWebRequest) request).getRequest().getRequestURI(), new Date());
+        ErrorDTO errorDTO = handleException((ServletWebRequest) request, stringBuilder.toString());
         return ResponseEntity.ok(errorDTO);
+    }
+
+    private ErrorDTO handleException(ServletWebRequest request, String message) {
+        return new ErrorDTO(message,
+                request.getRequest().getRequestURI()
+                , new Date());
     }
 
 
