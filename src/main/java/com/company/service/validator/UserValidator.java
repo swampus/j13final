@@ -49,8 +49,7 @@ public class UserValidator {
     }
 
     public void checkUserHaveLoyaltyCard(User user, Long loyaltyCardId) {
-        if (!user.getBooks().stream().map(Book::getId)
-                .collect(Collectors.toSet()).contains(loyaltyCardId)) {
+        if (user.getLoyaltyCard() == null || !user.getLoyaltyCard().getId().equals(loyaltyCardId)) {
             throw new UserDoesNotHaveThatLoyaltyCardException("user("
                     + user.getId() + ") does not have loyaltyCardId (" + loyaltyCardId + ")");
         }

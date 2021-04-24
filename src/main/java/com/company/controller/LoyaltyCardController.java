@@ -7,6 +7,7 @@ import com.company.mapper.UserMapper;
 import com.company.model.LoyaltyCard;
 import com.company.model.User;
 import com.company.service.LoyaltyCardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class LoyaltyCardController {
     private final LoyaltyCardMapper loyaltyCardMapper;
     private final UserMapper userMapper;
 
+    @Autowired
     public LoyaltyCardController(LoyaltyCardService loyaltyCardService,
                                  LoyaltyCardMapper loyaltyCardMapper, UserMapper userMapper) {
         this.loyaltyCardService = loyaltyCardService;
