@@ -1,0 +1,77 @@
+<html>
+<body>
+<b>Hello wourld!</b>
+<script>
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:9000/api/rest/User.svc/users';
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) => {
+        // console.log(Http.responseText);
+        var jtext = Http.responseText;
+        var obj = JSON.parse(Http.responseText);
+
+        var userTable = document.getElementById("users");
+        obj.forEach(element => {
+            console.log(element.username);
+        // Insert a row at the end of table
+        var newRow = userTable.insertRow();
+
+        newRow.innerHTML = "<td>"+element.username+"</td><td>"+element.email+"</td><td>"+element.personalCode+"</td>";
+    });
+
+
+    }
+
+    function addUser(){
+        var username = document.getElementById("username").value;
+        var personalCode = document.getElementById("personalCode").value;
+        var email = document.getElementById("email").value;
+        var str = '{ "username" : "'+username+'", "personalCode":"'+personalCode+'" ,"email":"'+email+'", "address":"xcvxcvxcv" }';
+        console.log(str);
+
+
+        window.fetch('http://localhost:9000/api/rest/User.svc/user', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: str,
+        }).then(function(response) {
+            if(response.message != null){
+                alert(response.message);
+            }
+            console.log(response.json());
+        });
+        location.reload();
+
+    }
+
+</script>
+
+<table id="users" border="1">
+    <tr>
+        <td><b>UserName</b></td>
+        <td><b>Email</b></td>
+        <td><b>PersonalCode</b></td>
+    </tr>
+    <script>
+    </script>
+</table>
+<br/><br/><br/>
+
+
+
+<form id="form1" method="POST" action="/api/rest/User.svc/user">
+
+    Username: <input id="username" />
+    personalCode: <input id="personalCode" />
+    email: <input id="email" />
+    <input type="button" value="submit" onClick="addUser()">
+</form>
+
+
+</body>
+</html>

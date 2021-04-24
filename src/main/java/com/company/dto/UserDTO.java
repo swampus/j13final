@@ -22,6 +22,9 @@ public class UserDTO {
     private Set<BookDTO> bookDTOSet;
     private LoyaltyCardDTO loyaltyCardDTO;
 
+    public UserDTO() {
+    }
+
     public Long getId() {
         return id;
     }
