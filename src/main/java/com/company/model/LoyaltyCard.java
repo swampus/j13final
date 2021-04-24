@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "loyalty_card")
-public class LoyalityCard {
+public class LoyaltyCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,8 @@ public class LoyalityCard {
     private String num;
     @Column(name = "type")
     private String annotation;
-    @OneToOne(mappedBy = "loyaltyCard")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
 
