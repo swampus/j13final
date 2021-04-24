@@ -1,24 +1,13 @@
-package com.company.model;
+package com.company.dto;
 
 import com.company.constants.LoyaltyCardType;
 
-import javax.persistence.*;
+public class LoyaltyCardDTO {
 
-@Entity
-@Table(name = "loyalty_card")
-public class LoyaltyCard {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "num")
     private String num;
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
     private LoyaltyCardType type;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private UserDTO user;
 
     public Long getId() {
         return id;
@@ -44,11 +33,11 @@ public class LoyaltyCard {
         this.type = type;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

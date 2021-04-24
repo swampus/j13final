@@ -1,5 +1,6 @@
 package com.company.dto;
 
+import com.company.model.LoyaltyCard;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -19,6 +20,7 @@ public class UserDTO {
     private String address;
     private String favoriteBook;
     private Set<BookDTO> bookDTOSet;
+    private LoyaltyCardDTO loyaltyCardDTO;
 
     public Long getId() {
         return id;
@@ -74,5 +76,13 @@ public class UserDTO {
 
     public void setBookDTOSet(Set<BookDTO> bookDTOSet) {
         this.bookDTOSet = bookDTOSet;
+    }
+
+    public LoyaltyCardDTO getLoyaltyCardDTO() {
+        return loyaltyCardDTO;
+    }
+
+    public void setLoyaltyCardDTO(LoyaltyCardDTO loyaltyCardDTO) {
+        this.loyaltyCardDTO = loyaltyCardDTO;
     }
 }
