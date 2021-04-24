@@ -24,6 +24,8 @@ public class User {
     private String favoriteBook;
     @OneToMany(mappedBy = "user")
     private Set<Book> books;
+    @OneToOne(mappedBy = "user")
+    private LoyalityCard loyaltyCard;
 
     public Long getId() {
         return id;
@@ -79,5 +81,13 @@ public class User {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+    public LoyalityCard getLoyaltyCard() {
+        return loyaltyCard;
+    }
+
+    public void setLoyaltyCard(LoyalityCard loyaltyCard) {
+        this.loyaltyCard = loyaltyCard;
     }
 }

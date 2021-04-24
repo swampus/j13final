@@ -1,0 +1,1 @@
+ALTER TABLE `user` ADD COLUMN loyalty_card_id bigint;
