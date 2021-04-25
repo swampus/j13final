@@ -1,10 +1,13 @@
 package com.company.controller;
 
 import com.company.dto.BookDTO;
+import com.company.dto.LoyaltyCardDTO;
 import com.company.dto.UserDTO;
 import com.company.mapper.BookMapper;
+import com.company.mapper.LoyaltyCardMapper;
 import com.company.mapper.UserMapper;
 import com.company.model.Book;
+import com.company.model.LoyaltyCard;
 import com.company.model.User;
 import com.company.service.UserService;
 import com.company.service.validator.UserValidator;
@@ -14,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,14 +34,16 @@ public class UserController {
     private final UserMapper userMapper;
     private final BookMapper bookMapper;
     private final UserValidator userValidator;
+    private final LoyaltyCardMapper loyaltyCardMapper;
 
     @Autowired
     public UserController(UserService userService, UserMapper userMapper, BookMapper bookMapper,
-                          UserValidator userValidator) {
+                          UserValidator userValidator, LoyaltyCardMapper loyaltyCardMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
         this.bookMapper = bookMapper;
         this.userValidator = userValidator;
+        this.loyaltyCardMapper = loyaltyCardMapper;
     }
 
     @GetMapping("/user({userId})")
@@ -47,6 +51,12 @@ public class UserController {
     public UserDTO getUserById(@PathVariable("userId") Long userId) {
         return userMapper.toDTO(userService.getUserById(userId));
     }
+
+    @PutMapping("/user({userId})")
+    public void deleteUser(@PathVariable("userId") Long userId) {
+        userService.softDeleteUser(userId);
+    }
+
 
     @PostMapping("/user")
     //do validation @Valid
@@ -70,10 +80,16 @@ public class UserController {
         return users.stream()
                 .map(user -> {
                     Set<Book> userBooks = user.getBooks();
+                    LoyaltyCard userLoyaltyCard = user.getLoyaltyCard();
                     UserDTO userDTO = userMapper.toDTO(user);
                     Set<BookDTO> bookDTOS = userBooks.stream()
                             .map(bookMapper::toDTO)
                             .collect(Collectors.toSet());
+                    if (userLoyaltyCard != null) {
+                        LoyaltyCardDTO loyaltyCardDTO = loyaltyCardMapper
+                                .toDTO(userLoyaltyCard);
+                        userDTO.setLoyaltyCardDTO(loyaltyCardDTO);
+                    }
                     userDTO.setBookDTOSet(bookDTOS);
                     return userDTO;
                 })

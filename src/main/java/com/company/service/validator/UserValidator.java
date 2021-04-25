@@ -1,9 +1,6 @@
 package com.company.service.validator;
 
-import com.company.exception.EmailAlreadyExistsException;
-import com.company.exception.EntityDoesNotExistsException;
-import com.company.exception.UserDoesNotHaveThatBookException;
-import com.company.exception.UserHaveToManyBooksException;
+import com.company.exception.*;
 import com.company.model.Book;
 import com.company.model.User;
 import com.company.repository.UserRepository;
@@ -38,7 +35,7 @@ public class UserValidator {
     }
 
     public User checkUserExists(Long userId) {
-        Optional<User> userFromDBOpt = userRepository.findById(userId);
+        Optional<User> userFromDBOpt = Optional.ofNullable(userRepository.findByStatusAndId("ACTIVE", userId));
         return userFromDBOpt.orElseThrow(() ->
                 new EntityDoesNotExistsException("User: (" + userId + ") not exists!"));
     }
@@ -48,6 +45,13 @@ public class UserValidator {
                 .collect(Collectors.toSet()).contains(bookId)) {
             throw new UserDoesNotHaveThatBookException("user("
                     + user.getId() + ") does not have book (" + bookId + ")");
+        }
+    }
+
+    public void checkUserHaveLoyaltyCard(User user, Long loyaltyCardId) {
+        if (user.getLoyaltyCard() == null || !user.getLoyaltyCard().getId().equals(loyaltyCardId)) {
+            throw new UserDoesNotHaveThatLoyaltyCardException("user("
+                    + user.getId() + ") does not have loyaltyCardId (" + loyaltyCardId + ")");
         }
     }
 

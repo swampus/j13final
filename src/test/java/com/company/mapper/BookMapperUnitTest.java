@@ -3,9 +3,12 @@ package com.company.mapper;
 import com.company.dto.BookDTO;
 import com.company.model.Book;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 public class BookMapperUnitTest {
 
     private BookMapper bookMapper = new BookMapper();

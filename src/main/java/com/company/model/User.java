@@ -1,7 +1,5 @@
 package com.company.model;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -24,6 +22,13 @@ public class User {
     private String favoriteBook;
     @OneToMany(mappedBy = "user")
     private Set<Book> books;
+    @Column(name = "status")
+    private String status;
+
+//    @MapsId
+    @OneToOne
+    @JoinColumn(name = "loyalty_card_id")
+    private LoyaltyCard loyaltyCard;
 
     public Long getId() {
         return id;
@@ -79,5 +84,21 @@ public class User {
 
     public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+    public LoyaltyCard getLoyaltyCard() {
+        return loyaltyCard;
+    }
+
+    public void setLoyaltyCard(LoyaltyCard loyaltyCard) {
+        this.loyaltyCard = loyaltyCard;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

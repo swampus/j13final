@@ -1,0 +1,5 @@
+FRONT END AND BACK-END
+A) DELETE BOOK (soft Delete)
+* all search not show DELETED ()
+
+2) Try to update user / book

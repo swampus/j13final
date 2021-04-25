@@ -8,11 +8,16 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByPersonalCode(String personalCode);
 
-    List<User> findByFavoriteBookLike(String favoriteBook);
+    List<User> findByStatus(String status);
 
-    List<User> findDistinctByBooksNameLike(String bookName);
+    User findByStatusAndId(String status, Long id);
+
+    User findByPersonalCodeAndStatus(String personalCode, String status);
+
+    List<User> findByFavoriteBookLikeAndStatus(String favoriteBook, String status);
+
+    List<User> findDistinctByBooksNameLikeAndStatus(String bookName, String status);
 
     /**
      //HSQL example
