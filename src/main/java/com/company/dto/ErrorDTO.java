@@ -8,6 +8,7 @@ public class ErrorDTO {
 
     private String message;
     private String path;
+    private Boolean isError = true;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date date;
@@ -43,5 +44,13 @@ public class ErrorDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getError() {
+        return isError;
+    }
+
+    public void setError(Boolean error) {
+        isError = error;
     }
 }
