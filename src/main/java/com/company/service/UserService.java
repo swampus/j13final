@@ -2,32 +2,34 @@ package com.company.service;
 
 import com.company.model.User;
 import com.company.repository.UserRepository;
+import com.company.service.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Component
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserValidator userValidator) {
         this.userRepository = userRepository;
+        this.userValidator = userValidator;
     }
 
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByStatus("ACTIVE");
     }
 
     public User getByPersonalCode(String personalCode) {
-        return userRepository.findByPersonalCode(personalCode);
+        return userRepository.findByPersonalCodeAndStatus("ACTIVE", personalCode);
     }
 
     public List<User> getByFavoriteBook(String favoriteBook) {
-        return userRepository.findByFavoriteBookLike("%" + favoriteBook + "%");
+        return userRepository.findByFavoriteBookLikeAndStatus("ACTIVE", "%" + favoriteBook + "%");
     }
 
     public User saveUser(User user) {
@@ -39,7 +41,13 @@ public class UserService {
     }
 
     public List<User> getUsersByBookName(String bookName) {
-        return userRepository.findDistinctByBooksNameLike("%" + bookName + "%");
+        return userRepository.findByFavoriteBookLikeAndStatus("ACTIVE", "%" + bookName + "%");
+    }
+
+    public void softDeleteUser(Long userId){
+        User user = userValidator.checkUserExists(userId);
+        user.setStatus("DELETED");
+        userRepository.save(user);
     }
 
 }

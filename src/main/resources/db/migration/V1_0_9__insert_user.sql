@@ -1,0 +1,1 @@
+insert into user values(4, 'DELTED', 'DELETED@noemail.com', '123456-9191', 'LT, Kaunas', '00,5', null, 'DELETED');

@@ -52,6 +52,12 @@ public class UserController {
         return userMapper.toDTO(userService.getUserById(userId));
     }
 
+    @PutMapping("/user({userId})")
+    public void deleteUser(@PathVariable("userId") Long userId) {
+        userService.softDeleteUser(userId);
+    }
+
+
     @PostMapping("/user")
     //do validation @Valid
     public UserDTO saveUser(@Valid @RequestBody UserDTO userDTO) {
@@ -79,7 +85,7 @@ public class UserController {
                     Set<BookDTO> bookDTOS = userBooks.stream()
                             .map(bookMapper::toDTO)
                             .collect(Collectors.toSet());
-                    if(userLoyaltyCard != null){
+                    if (userLoyaltyCard != null) {
                         LoyaltyCardDTO loyaltyCardDTO = loyaltyCardMapper
                                 .toDTO(userLoyaltyCard);
                         userDTO.setLoyaltyCardDTO(loyaltyCardDTO);

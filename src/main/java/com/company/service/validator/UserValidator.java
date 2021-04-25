@@ -35,7 +35,7 @@ public class UserValidator {
     }
 
     public User checkUserExists(Long userId) {
-        Optional<User> userFromDBOpt = userRepository.findById(userId);
+        Optional<User> userFromDBOpt = Optional.ofNullable(userRepository.findByStatusAndId("ACTIVE", userId));
         return userFromDBOpt.orElseThrow(() ->
                 new EntityDoesNotExistsException("User: (" + userId + ") not exists!"));
     }
