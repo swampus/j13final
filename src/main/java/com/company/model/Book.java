@@ -20,8 +20,10 @@ public class Book {
     @Column(name = "ISBN")
     private String ISBN;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "status")
+    private String status;
 
     public Long getId() {
         return id;
@@ -77,6 +79,14 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 

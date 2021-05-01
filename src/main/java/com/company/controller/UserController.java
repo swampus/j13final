@@ -83,6 +83,8 @@ public class UserController {
                     LoyaltyCard userLoyaltyCard = user.getLoyaltyCard();
                     UserDTO userDTO = userMapper.toDTO(user);
                     Set<BookDTO> bookDTOS = userBooks.stream()
+                            //filter out all nonactive books
+                            .filter(t -> t.getStatus().equals("ACTIVE"))
                             .map(bookMapper::toDTO)
                             .collect(Collectors.toSet());
                     if (userLoyaltyCard != null) {

@@ -26,18 +26,19 @@ public class BookService {
     }
 
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookRepository.findAllByStatus("ACTIVE");
     }
 
     public List<Book> getAllBooksByYear(String year) {
-        return bookRepository.findByYear(year);
+        return bookRepository.findByYearAndStatus(year, "ACTIVE");
     }
 
     public List<Book> getAllBooksByInAnnotation(String keyword) {
-        return bookRepository.findByAnnotationLike("%" + keyword + "%");
+        return bookRepository.findByAnnotationLikeAndStatus("%" + keyword + "%", "ACTIVE");
     }
 
     public Book saveBook(Book book) {
+        book.setStatus("ACTIVE");
         return bookRepository.save(book);
     }
 
@@ -47,6 +48,7 @@ public class BookService {
     }
 
     public List<Book> filterBook(Book book) {
+        book.setStatus("ACTIVE");
         Example<Book> bookExample = Example.of(book);
         return bookRepository.findAll(bookExample);
     }

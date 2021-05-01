@@ -19,7 +19,7 @@ public class BookValidator {
     }
 
     public Book checkBookExists(Long bookId) {
-        Optional<Book> bookFromDBOpt = bookRepository.findById(bookId);
+        Optional<Book> bookFromDBOpt = Optional.ofNullable(bookRepository.findByIdAndStatus(bookId, "ACTIVE"));
         return bookFromDBOpt.orElseThrow(() ->
                 new EntityDoesNotExistsException("Book: (" + bookId
                         + ") not exists!"));

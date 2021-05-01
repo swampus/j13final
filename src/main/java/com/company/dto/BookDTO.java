@@ -9,6 +9,7 @@ public class BookDTO {
     private String year;
     private String ISBN;
     private UserDTO userDTO;
+    private String status;
 
     public Long getId() {
         return id;
@@ -64,5 +65,13 @@ public class BookDTO {
 
     public void setUserDTO(UserDTO userDTO) {
         this.userDTO = userDTO;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
