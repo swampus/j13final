@@ -20,6 +20,15 @@ public class UserService {
         this.userValidator = userValidator;
     }
 
+    public void updateUser(Long userId, User user){
+        User userForUpdate = userValidator.checkUserExists(userId);
+        userForUpdate.setUsername(user.getUsername());
+        userForUpdate.setPersonalCode(user.getPersonalCode());
+        userForUpdate.setAddress(user.getAddress());
+        userForUpdate.setFavoriteBook(user.getFavoriteBook());
+        userRepository.save(userForUpdate);
+    }
+
     public List<User> findAllUsers() {
         return userRepository.findByStatus("ACTIVE");
     }

@@ -52,11 +52,18 @@ public class UserController {
         return userMapper.toDTO(userService.getUserById(userId));
     }
 
-    @PutMapping("/user({userId})")
+    @DeleteMapping("/user({userId})")
     public void deleteUser(@PathVariable("userId") Long userId) {
         userService.softDeleteUser(userId);
     }
 
+
+    //update - put, delete (even soft) == delete
+    @PutMapping("/user({id})")
+    //do validation @Valid
+    public void updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDTO userDTO) {
+        userService.updateUser(id, userMapper.fromDTO(userDTO));
+    }
 
     @PostMapping("/user")
     //do validation @Valid
