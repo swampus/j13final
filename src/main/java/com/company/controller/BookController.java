@@ -32,6 +32,12 @@ public class BookController {
 
     }
 
+    @DeleteMapping("/book({id})")
+    public void deleteBook(@PathVariable("id") Long id) {
+        bookService.deleteBook(id);
+    }
+
+
     @GetMapping("/Book/year/{year}")
     public List<BookDTO> findAllBooks(@PathVariable("year")
                                               String year) {

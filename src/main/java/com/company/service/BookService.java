@@ -10,6 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookService {
@@ -27,6 +28,12 @@ public class BookService {
 
     public List<Book> getAllBooks() {
         return bookRepository.findAllByStatus("ACTIVE");
+    }
+
+    public void deleteBook(Long bookId){
+        Book book = bookValidator.checkBookExists(bookId);
+        book.setStatus("DELETED");
+        bookRepository.save(book);
     }
 
     public List<Book> getAllBooksByYear(String year) {
